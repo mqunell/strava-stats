@@ -5,14 +5,6 @@ describe('Home', () => {
 	it('renders links', () => {
 		render(<Home />);
 
-		const expectedLinks = [
-			/static generation/i,
-			/server-side rendering/i,
-			/client-side rendering/i,
-		];
-
-		expectedLinks.forEach((name) => {
-			expect(screen.getByRole('link', { name })).toBeInTheDocument();
-		});
+		// TODO: Test rendering based on cookies
 	});
 });

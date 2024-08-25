@@ -1,19 +1,20 @@
-import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { getCookies } from 'cookies-next';
+import { Authenticate } from './Authenticate';
 
-const links = [
-	{ text: 'Static Generation', url: '/demos/static-generation' },
-	{ text: 'Server-side Rendering', url: '/demos/server-side-rendering' },
-	{ text: 'Client-side Rendering', url: '/demos/client-side-rendering' },
-];
+const Home = () => {
+	const { accessToken, firstName, profilePicture } = getCookies({ cookies });
 
-const Home = () => (
-	<div className="flex flex-col gap-2 p-8">
-		{links.map(({ text, url }) => (
-			<Link key={url} href={url} className="text-blue-500 hover:underline">
-				{text}
-			</Link>
-		))}
-	</div>
-);
+	if (!accessToken) {
+		return <Authenticate />;
+	}
+
+	return (
+		<div className="flex flex-col items-center">
+			{profilePicture ? <img src={profilePicture} /> : null}
+			<p>Hey{firstName ? ` ${firstName}` : ''}! Loading your data now...</p>
+		</div>
+	);
+};
 
 export default Home;
