@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export const Authenticate = () => {
+const Authenticate = () => {
 	return (
 		<>
 			<Link
@@ -12,3 +12,5 @@ export const Authenticate = () => {
 		</>
 	);
 };
+
+export default Authenticate;
