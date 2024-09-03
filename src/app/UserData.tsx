@@ -12,9 +12,8 @@ const GetData = async (accessToken: string): Promise<ApiAthlete> => {
 		fetchOptions,
 	);
 	const statsData: ApiStats = await statsRes.json();
-	console.log({ statsData });
 
-	// TODO: Clean this up, get all activities, see if msw can mock these endpoints during development
+	// TODO: Clean this up, get all activities, then format and return everything
 
 	return athleteData;
 };

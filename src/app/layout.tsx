@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
 import '@/styles/globals.css';
+import { server } from '../testing/mocks/server';
+
+if (process.env.NODE_ENV === 'development') {
+	server.listen();
+}
 
 export const metadata: Metadata = {
 	title: 'Next.js Template',
