@@ -1,4 +1,4 @@
-import { delay, http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 export const handlers = [
 	http.get('https://www.strava.com/api/v3/athlete', async () => {
