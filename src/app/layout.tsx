@@ -7,8 +7,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export const metadata: Metadata = {
-	title: 'Next.js Template',
-	description: 'My customized Next.js template to quickly start future projects',
+	title: 'Strava Stats',
+	description: 'Expanded stats for Strava',
 	icons: {
 		icon: '/favicon.ico',
 	},
