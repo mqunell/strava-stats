@@ -10,13 +10,16 @@ type ApiAthlete = {
 	updated_at: string;
 	bikes: ApiGear[];
 	shoes: ApiGear[];
+	[unused: string]: unknown;
 };
 
+// Note: Despite having a "retired" field, retired gear is not provided
 type ApiGear = {
 	id: string;
 	name: string;
 	distance: number; // meters, ex. 2765462
 	converted_distance: number; // miles, ex. 1718.4
+	[unused: string]: unknown;
 };
 
 // GET:/athlete/activities
@@ -36,6 +39,9 @@ type ApiActivity = {
 	max_speed: number;
 	elev_low: number;
 	elev_high: number;
+	average_heartrate: number;
+	max_heartrate: number;
+	[unused: string]: unknown;
 };
 
 // GET:/athletes/{id}/stats
@@ -48,6 +54,7 @@ type ApiStats = {
 	recent_run_totals: ApiStatPeriod;
 	all_run_totals: ApiStatPeriod;
 	ytd_run_totals: ApiStatPeriod;
+	[unused: string]: unknown;
 };
 
 type ApiStatPeriod = {
@@ -56,4 +63,5 @@ type ApiStatPeriod = {
 	moving_time: number;
 	elapsed_time: number;
 	elevation_gain: number;
+	[unused: string]: unknown;
 };

@@ -1,25 +1,30 @@
-const GetData = async (accessToken: string): Promise<ApiAthlete> => {
+type AllApiData = {
+	athlete: ApiAthlete;
+	activities: ApiActivity[];
+	stats: ApiStats;
+};
+
+const GetData = async (accessToken: string): Promise<AllApiData> => {
+	const baseUrl = 'https://www.strava.com/api/v3';
 	const fetchOptions = {
 		method: 'GET',
 		headers: { Authorization: `Bearer ${accessToken}` },
 	};
 
-	const athleteRes = await fetch('https://www.strava.com/api/v3/athlete', fetchOptions);
-	const athleteData: ApiAthlete = await athleteRes.json();
+	const athleteRes = await fetch(`${baseUrl}/athlete`, fetchOptions);
+	const athlete: ApiAthlete = await athleteRes.json();
 
-	const statsRes = await fetch(
-		`https://www.strava.com/api/v3/athletes/${athleteData.id}/stats`,
-		fetchOptions,
-	);
-	const statsData: ApiStats = await statsRes.json();
+	const activitesRes = await fetch(`${baseUrl}/athlete/activities`, fetchOptions);
+	const activities: ApiActivity[] = await activitesRes.json();
 
-	// TODO: Clean this up, get all activities, then format and return everything
+	const statsRes = await fetch(`${baseUrl}/athletes/${athlete.id}/stats`, fetchOptions);
+	const stats: ApiStats = await statsRes.json();
 
-	return athleteData;
+	return { athlete, activities, stats };
 };
 
 const UserData = async ({ accessToken }: { accessToken: string }) => {
-	const data: ApiAthlete = await GetData(accessToken);
+	const { athlete, activities, stats }: AllApiData = await GetData(accessToken);
 
 	return <p>{accessToken}</p>;
 };
