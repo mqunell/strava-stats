@@ -25,9 +25,9 @@ const Home = () => {
 	}
 
 	return (
-		<section className="flex flex-col items-center">
+		<section className="flex flex-col items-center p-6">
 			{profilePicture ? <img src={profilePicture} /> : null}
-			<p>Hey{firstName ? ` ${firstName}` : ''}! Loading your data now...</p>
+			<p>Hey{firstName ? ` ${firstName}` : ''}!</p>
 			<Suspense fallback={<Loading />}>
 				<UserData accessToken={accessToken} />
 			</Suspense>
