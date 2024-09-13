@@ -29,15 +29,7 @@ const GetData = async (accessToken: string): Promise<AllApiData> => {
 	return { athlete, activities, stats };
 };
 
-const GearStats = ({
-	icon,
-	gear,
-	allActivities,
-}: {
-	icon: string;
-	gear: ApiGear;
-	allActivities: ApiActivity[];
-}) => {
+const GearStats = ({ icon, gear, allActivities }: { icon: string; gear: ApiGear; allActivities: ApiActivity[] }) => {
 	const activities = allActivities.filter((activity) => activity.gear_id === gear.id);
 	const recentDistance = activities.reduce((total, activity) => (total += activity.distance), 0);
 
@@ -62,12 +54,8 @@ const UserData = async ({ accessToken }: { accessToken: string }) => {
 			<p>{accessToken}</p>
 			<hr />
 			<span className="text-lg font-semibold">Gear</span>
-			{athlete.shoes.map((gear) => (
-				<GearStats key={gear.id} icon="👟" gear={gear} allActivities={activities} />
-			))}
-			{athlete.bikes.map((gear) => (
-				<GearStats key={gear.id} icon="🚲" gear={gear} allActivities={activities} />
-			))}
+			{athlete.shoes?.map((gear) => <GearStats key={gear.id} icon="👟" gear={gear} allActivities={activities} />)}
+			{athlete.bikes?.map((gear) => <GearStats key={gear.id} icon="🚲" gear={gear} allActivities={activities} />)}
 		</section>
 	);
 };

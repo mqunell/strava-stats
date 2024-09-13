@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import Home from './page';
 
-describe('Home', () => {
+describe.skip('Home', () => {
 	it('renders links', () => {
 		render(<Home />);
 

@@ -35,7 +35,7 @@ type ApiActivity = {
 	type: 'Walk' | 'Run' | 'Ride';
 	athlete_count: number;
 	gear_id: string; // GearResponse.id
-	average_speed: number;
+	average_speed: number; // meters per second
 	max_speed: number;
 	elev_low: number;
 	elev_high: number;
