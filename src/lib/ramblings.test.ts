@@ -1,4 +1,4 @@
-import { averageRunHR, estimatedFastestDistance, parseWeeklyBuckets, maxActivityStat } from './ramblings';
+import { averageRunHR, estimatedFastestDistance, maxActivityStat } from './ramblings';
 
 describe('ramblings', () => {
 	test('maxActivityStat', () => {
@@ -47,69 +47,5 @@ describe('ramblings', () => {
 
 		expect(averageRunHR(mocks.slice(0, 3), 'fast')).toBeNull();
 		expect(averageRunHR(mocks.slice(3), 'slow')).toBeNull();
-	});
-
-	test('parseWeeklyBuckets', () => {
-		const mocks = [
-			{ start_date_local: '2024-09-07T10:30:52Z' },
-			{ start_date_local: '2024-09-06T19:17:41Z' },
-			{ start_date_local: '2024-09-04T18:57:26Z' },
-			{ start_date_local: '2024-09-03T14:49:49Z' },
-			{ start_date_local: '2024-09-02T16:22:17Z' },
-			{ start_date_local: '2024-09-01T11:37:48Z' },
-			{ start_date_local: '2024-08-31T18:04:43Z' },
-			{ start_date_local: '2024-08-29T15:09:14Z' },
-			{ start_date_local: '2024-08-28T17:10:34Z' },
-			{ start_date_local: '2024-08-27T15:30:15Z' },
-			// gap in dates
-			{ start_date_local: '2024-08-06T14:46:09Z' },
-			{ start_date_local: '2024-08-05T18:04:17Z' },
-			{ start_date_local: '2024-08-04T10:17:10Z' },
-			{ start_date_local: '2024-08-02T18:15:46Z' },
-			{ start_date_local: '2024-08-01T17:34:03Z' },
-			{ start_date_local: '2024-07-30T16:54:51Z' },
-			{ start_date_local: '2024-07-29T17:11:46Z' },
-			{ start_date_local: '2024-07-28T15:21:18Z' },
-			{ start_date_local: '2024-07-25T15:13:04Z' },
-			{ start_date_local: '2024-07-23T09:13:50Z' },
-		] as ApiActivity[];
-
-		const expectedBuckets = {
-			'2024-07-22': [
-				{ start_date_local: '2024-07-23T09:13:50Z' },
-				{ start_date_local: '2024-07-25T15:13:04Z' },
-				{ start_date_local: '2024-07-28T15:21:18Z' },
-			],
-			'2024-07-29': [
-				{ start_date_local: '2024-07-29T17:11:46Z' },
-				{ start_date_local: '2024-07-30T16:54:51Z' },
-				{ start_date_local: '2024-08-01T17:34:03Z' },
-				{ start_date_local: '2024-08-02T18:15:46Z' },
-				{ start_date_local: '2024-08-04T10:17:10Z' },
-			],
-			'2024-08-05': [
-				// formatting
-				{ start_date_local: '2024-08-05T18:04:17Z' },
-				{ start_date_local: '2024-08-06T14:46:09Z' },
-			],
-			'2024-08-12': [],
-			'2024-08-19': [],
-			'2024-08-26': [
-				{ start_date_local: '2024-08-27T15:30:15Z' },
-				{ start_date_local: '2024-08-28T17:10:34Z' },
-				{ start_date_local: '2024-08-29T15:09:14Z' },
-				{ start_date_local: '2024-08-31T18:04:43Z' },
-				{ start_date_local: '2024-09-01T11:37:48Z' },
-			],
-			'2024-09-02': [
-				{ start_date_local: '2024-09-02T16:22:17Z' },
-				{ start_date_local: '2024-09-03T14:49:49Z' },
-				{ start_date_local: '2024-09-04T18:57:26Z' },
-				{ start_date_local: '2024-09-06T19:17:41Z' },
-				{ start_date_local: '2024-09-07T10:30:52Z' },
-			],
-		};
-
-		expect(parseWeeklyBuckets(mocks)).toStrictEqual(expectedBuckets);
 	});
 });

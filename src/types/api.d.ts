@@ -32,9 +32,9 @@ type ApiActivity = {
 	moving_time: number;
 	elapsed_time: number;
 	total_elevation_gain: number;
-	type: 'Walk' | 'Run' | 'Ride';
+	type: string; // 'Walk' | 'Run' | 'Ride'
 	athlete_count: number;
-	gear_id: string; // GearResponse.id
+	gear_id: string | null; // GearResponse.id
 	average_speed: number; // meters per second
 	max_speed: number;
 	elev_low: number;
