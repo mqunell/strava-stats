@@ -20,7 +20,7 @@ export const parseWeeklyBuckets = (activities: ApiActivity[]): WeeklyBuckets => 
 	const buckets: WeeklyBuckets = {};
 
 	// Put the activities in chronological order
-	activities.reverse();
+	activities.sort((a, b) => (a.start_date_local < b.start_date_local ? -1 : 1));
 
 	// Find the Mondays for the first and last buckets
 	let firstBucketStart: Date = previousMonday(activities[0].start_date_local);
@@ -45,7 +45,7 @@ export const formatGraphBuckets = (buckets: WeeklyBuckets): GraphBucket[] => {
 	const output: GraphBucket[] = [];
 
 	for (const key of Object.keys(buckets)) {
-		const weekTotals = { week: key, ride: 0, run: 0, walk: 0 };
+		const weekTotals: GraphBucket = { week: key, ride: 0, run: 0, walk: 0 };
 
 		for (const activity of buckets[key]) {
 			if (activity.type === 'Ride') weekTotals.ride += activity.distance;

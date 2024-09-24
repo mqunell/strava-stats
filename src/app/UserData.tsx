@@ -1,3 +1,7 @@
+import dynamic from 'next/dynamic';
+
+const DistanceGraph = dynamic(() => import('./DistanceGraph'), { ssr: false });
+
 type AllApiData = {
 	athlete: ApiAthlete;
 	activities: ApiActivity[];
@@ -56,6 +60,7 @@ const UserData = async ({ accessToken }: { accessToken: string }) => {
 			<span className="text-lg font-semibold">Gear</span>
 			{athlete.shoes?.map((gear) => <GearStats key={gear.id} icon="👟" gear={gear} allActivities={activities} />)}
 			{athlete.bikes?.map((gear) => <GearStats key={gear.id} icon="🚲" gear={gear} allActivities={activities} />)}
+			<DistanceGraph activities={activities} />
 		</section>
 	);
 };
