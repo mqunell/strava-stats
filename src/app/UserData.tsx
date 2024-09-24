@@ -34,10 +34,17 @@ const GetData = async (accessToken: string): Promise<AllApiData> => {
 };
 
 const GearStats = ({ icon, gear, allActivities }: { icon: string; gear: ApiGear; allActivities: ApiActivity[] }) => {
-	const activities = allActivities.filter((activity) => activity.gear_id === gear.id);
-	const recentDistance = activities.reduce((total, activity) => (total += activity.distance), 0);
+	const now = new Date().valueOf();
+	const recentActivities = allActivities.filter((activity) => {
+		const startTime = new Date(activity.start_date_local).valueOf();
+		const within30Days = (now - startTime) / 1000 / 60 / 60 / 24 < 30;
 
-	if (!activities.length) return null;
+		return activity.gear_id === gear.id && within30Days;
+	});
+
+	const recentDistance = recentActivities.reduce((total, activity) => total + activity.distance, 0);
+
+	if (!recentActivities.length) return null;
 
 	return (
 		<div className="mb-2">
@@ -45,7 +52,7 @@ const GearStats = ({ icon, gear, allActivities }: { icon: string; gear: ApiGear;
 			<br />
 			{gear.converted_distance} total miles
 			<br />
-			{metersToMiles(recentDistance)} recent miles ({activities.length} activities)
+			{metersToMiles(recentDistance)} recent miles ({recentActivities.length} activities)
 		</div>
 	);
 };
@@ -60,6 +67,8 @@ const UserData = async ({ accessToken }: { accessToken: string }) => {
 			<span className="text-lg font-semibold">Gear</span>
 			{athlete.shoes?.map((gear) => <GearStats key={gear.id} icon="👟" gear={gear} allActivities={activities} />)}
 			{athlete.bikes?.map((gear) => <GearStats key={gear.id} icon="🚲" gear={gear} allActivities={activities} />)}
+
+			<span className="text-lg font-semibold">Weekly Distance</span>
 			<DistanceGraph activities={activities} />
 		</section>
 	);
