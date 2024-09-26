@@ -10,7 +10,10 @@ type WeeklyBuckets = {
 
 type GraphBucket = {
 	week: string;
-	ride: number;
-	run: number;
-	walk: number;
+	rideMeters: number;
+	rideMiles: number;
+	runMeters: number;
+	runMiles: number;
+	walkMeters: number;
+	walkMiles: number;
 };

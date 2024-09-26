@@ -1,3 +1,5 @@
+import { metersToMiles, rounded } from './utils';
+
 const previousMonday = (dateString: string): Date => {
 	const date = new Date(dateString);
 	date.setHours(0, 0, 0);
@@ -45,15 +47,25 @@ export const formatGraphBuckets = (buckets: WeeklyBuckets): GraphBucket[] => {
 	const output: GraphBucket[] = [];
 
 	for (const key of Object.keys(buckets)) {
-		const weekTotals: GraphBucket = { week: key, ride: 0, run: 0, walk: 0 };
+		let rideMeters = 0;
+		let runMeters = 0;
+		let walkMeters = 0;
 
 		for (const activity of buckets[key]) {
-			if (activity.type === 'Ride') weekTotals.ride += activity.distance;
-			if (activity.type === 'Run') weekTotals.run += activity.distance;
-			if (activity.type === 'Walk') weekTotals.walk += activity.distance;
+			if (activity.type === 'Ride') rideMeters += activity.distance;
+			if (activity.type === 'Run') runMeters += activity.distance;
+			if (activity.type === 'Walk') walkMeters += activity.distance;
 		}
 
-		output.push(weekTotals);
+		output.push({
+			week: key,
+			rideMeters: rounded(rideMeters),
+			rideMiles: rounded(metersToMiles(rideMeters)),
+			runMeters: rounded(runMeters),
+			runMiles: rounded(metersToMiles(runMeters)),
+			walkMeters: rounded(walkMeters),
+			walkMiles: rounded(metersToMiles(walkMeters)),
+		});
 	}
 
 	return output;
