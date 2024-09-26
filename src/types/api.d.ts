@@ -46,8 +46,6 @@ type ApiActivity = {
 
 // GET:/athletes/{id}/stats
 type ApiStats = {
-	biggest_ride_distance: number;
-	biggest_climb_elevation_gain: number;
 	recent_ride_totals: ApiStatPeriod;
 	ytd_ride_totals: ApiStatPeriod;
 	all_ride_totals: ApiStatPeriod;

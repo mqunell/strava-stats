@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import '@/styles/globals.css';
-import { server } from '../testing/mocks/server';
+import { server } from '../testing/msw/server';
 
 if (process.env.NODE_ENV === 'development') {
 	server.listen();
