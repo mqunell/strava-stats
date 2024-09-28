@@ -1,4 +1,4 @@
-import { metersToMiles } from '@/lib/utils';
+import { metersToMiles, rounded } from '@/lib/utils';
 
 const GearStats = ({ icon, gear, allActivities }: { icon: string; gear: ApiGear; allActivities: ApiActivity[] }) => {
 	const now = new Date().valueOf();
@@ -19,7 +19,7 @@ const GearStats = ({ icon, gear, allActivities }: { icon: string; gear: ApiGear;
 			<br />
 			{gear.converted_distance} total miles
 			<br />
-			{metersToMiles(recentDistance)} recent miles ({recentActivities.length} activities)
+			{rounded(metersToMiles(recentDistance))} recent miles ({recentActivities.length} activities)
 		</div>
 	);
 };
