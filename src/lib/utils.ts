@@ -10,14 +10,14 @@ export const milesToMeters = (miles: number): number => {
 	return meters;
 };
 
-export const pick = (obj: any, keys: string[]) => {
-	const result: { [key: string]: any } = {};
+export const pick = <T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> => {
+	const result = {} as Pick<T, K>;
 
-	for (const key of keys) {
+	keys.forEach((key) => {
 		if (key in obj) {
 			result[key] = obj[key];
 		}
-	}
+	});
 
 	return result;
 };

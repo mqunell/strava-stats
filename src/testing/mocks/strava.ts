@@ -580,21 +580,13 @@ export const mockAthlete: ApiAthlete = {
 	bikes: [
 		{
 			id: 'b11055279',
-			primary: false,
 			name: 'Bicyclysseus',
-			nickname: 'Bicyclysseus',
-			resource_state: 2,
-			retired: false,
 			distance: 2846441,
 			converted_distance: 1768.7,
 		},
 		{
 			id: 'b11447707',
-			primary: false,
 			name: "Dad's bike",
-			nickname: "Dad's bike",
-			resource_state: 2,
-			retired: false,
 			distance: 68654,
 			converted_distance: 42.7,
 		},
@@ -602,21 +594,13 @@ export const mockAthlete: ApiAthlete = {
 	shoes: [
 		{
 			id: 'g15117495',
-			primary: false,
 			name: 'Nike Pegasus 40',
-			nickname: null,
-			resource_state: 2,
-			retired: false,
 			distance: 280521,
 			converted_distance: 174.3,
 		},
 		{
 			id: 'g11177469',
-			primary: false,
 			name: 'Brooks Adrenaline GTS 20',
-			nickname: null,
-			resource_state: 2,
-			retired: false,
 			distance: 638559,
 			converted_distance: 396.8,
 		},
@@ -630,7 +614,6 @@ export const mockStats: ApiStats = {
 		moving_time: 14314,
 		elapsed_time: 18545,
 		elevation_gain: 601.8000259399414,
-		achievement_count: 48,
 	},
 	ytd_ride_totals: {
 		count: 15,
@@ -652,7 +635,6 @@ export const mockStats: ApiStats = {
 		moving_time: 25999,
 		elapsed_time: 26088,
 		elevation_gain: 773.3999938964844,
-		achievement_count: 0,
 	},
 	all_run_totals: {
 		count: 119,
