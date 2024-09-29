@@ -1,3 +1,5 @@
+import { pick } from './utils';
+
 export const getStravaData = async (accessToken: string): Promise<AllApiData> => {
 	const baseUrl = 'https://www.strava.com/api/v3';
 	const fetchOptions = {
@@ -7,15 +9,15 @@ export const getStravaData = async (accessToken: string): Promise<AllApiData> =>
 
 	const athleteRes = await fetch(`${baseUrl}/athlete`, fetchOptions);
 	const fullAthlete: ApiAthlete = await athleteRes.json();
-	const trimmedAthlete: ApiAthlete = {
-		id: fullAthlete.id,
-		firstname: fullAthlete.firstname,
-		lastname: fullAthlete.lastname,
-		created_at: fullAthlete.created_at,
-		updated_at: fullAthlete.updated_at,
-		bikes: fullAthlete.bikes,
-		shoes: fullAthlete.shoes,
-	};
+	const trimmedAthlete: ApiAthlete = pick(fullAthlete, [
+		'id',
+		'firstname',
+		'lastname',
+		'created_at',
+		'updated_at',
+		'bikes',
+		'shoes',
+	]) as ApiAthlete; // TODO: Not type safe - these keys are not being checked
 
 	const activitesRes = await fetch(`${baseUrl}/athlete/activities`, fetchOptions);
 	const fullActivities: ApiActivity[] = await activitesRes.json();
