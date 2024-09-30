@@ -1,30 +1,24 @@
 import { pick } from './utils';
 
-export const getStravaData = async (accessToken: string): Promise<AllApiData> => {
-	const baseUrl = 'https://www.strava.com/api/v3';
-	const fetchOptions = {
-		method: 'GET',
-		headers: { Authorization: `Bearer ${accessToken}` },
-	};
+const baseUrl = 'https://www.strava.com/api/v3';
 
-	const athleteRes = await fetch(`${baseUrl}/athlete`, fetchOptions);
-	const fullAthlete: ApiAthlete = await athleteRes.json();
-	const trimmedAthlete: ApiAthlete = pick(fullAthlete, [
-		'id',
-		'firstname',
-		'lastname',
-		'created_at',
-		'updated_at',
-		'bikes',
-		'shoes',
-	]);
+const getAthlete = async (fetchOptions: object): Promise<ApiAthlete> => {
+	const res = await fetch(`${baseUrl}/athlete`, fetchOptions);
+	const data: ApiAthlete = await res.json();
+
+	const athlete: ApiAthlete = pick(data, ['id', 'firstname', 'lastname', 'created_at', 'updated_at', 'bikes', 'shoes']);
 	const gearKeys: (keyof ApiGear)[] = ['id', 'name', 'distance', 'converted_distance'];
-	trimmedAthlete.bikes = trimmedAthlete.bikes.map((gear) => pick(gear, gearKeys));
-	trimmedAthlete.shoes = trimmedAthlete.shoes.map((gear) => pick(gear, gearKeys));
+	athlete.bikes = athlete.bikes.map((gear) => pick(gear, gearKeys));
+	athlete.shoes = athlete.shoes.map((gear) => pick(gear, gearKeys));
 
-	const activitesRes = await fetch(`${baseUrl}/athlete/activities`, fetchOptions);
-	const fullActivities: ApiActivity[] = await activitesRes.json();
-	const trimmedActivities: ApiActivity[] = fullActivities.map((activity) =>
+	return athlete;
+};
+
+const getActivities = async (fetchOptions: object): Promise<ApiActivity[]> => {
+	const res = await fetch(`${baseUrl}/athlete/activities?per_page=200&page=1`, fetchOptions);
+	const data: ApiActivity[] = await res.json();
+
+	const activities: ApiActivity[] = data.map((activity) =>
 		pick(activity, [
 			'id',
 			'name',
@@ -46,9 +40,14 @@ export const getStravaData = async (accessToken: string): Promise<AllApiData> =>
 		]),
 	);
 
-	const statsRes = await fetch(`${baseUrl}/athletes/${trimmedAthlete.id}/stats`, fetchOptions);
-	const fullStats: ApiStats = await statsRes.json();
-	const trimmedStats = pick(fullStats, [
+	return activities;
+};
+
+const getStats = async (fetchOptions: object, athleteId: number | string): Promise<ApiStats> => {
+	const res = await fetch(`${baseUrl}/athletes/${athleteId}/stats`, fetchOptions);
+	const data: ApiStats = await res.json();
+
+	const stats = pick(data, [
 		'recent_ride_totals',
 		'ytd_ride_totals',
 		'all_ride_totals',
@@ -57,5 +56,18 @@ export const getStravaData = async (accessToken: string): Promise<AllApiData> =>
 		'ytd_run_totals',
 	]);
 
-	return { athlete: trimmedAthlete, activities: trimmedActivities, stats: trimmedStats };
+	return stats;
+};
+
+export const getStravaData = async (accessToken: string): Promise<AllApiData> => {
+	const fetchOptions = {
+		method: 'GET',
+		headers: { Authorization: `Bearer ${accessToken}` },
+	};
+
+	const athlete: ApiAthlete = await getAthlete(fetchOptions);
+	const activities: ApiActivity[] = await getActivities(fetchOptions);
+	const stats: ApiStats = await getStats(fetchOptions, athlete.id);
+
+	return { athlete, activities, stats };
 };
