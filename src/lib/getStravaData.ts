@@ -15,32 +15,48 @@ const getAthlete = async (fetchOptions: object): Promise<ApiAthlete> => {
 };
 
 const getActivities = async (fetchOptions: object): Promise<ApiActivity[]> => {
-	const res = await fetch(`${baseUrl}/athlete/activities?per_page=200&page=1`, fetchOptions);
-	const data: ApiActivity[] = await res.json();
+	const perPage = 200;
+	let page = 1;
 
-	const activities: ApiActivity[] = data.map((activity) =>
-		pick(activity, [
-			'id',
-			'name',
-			'distance',
-			'start_date',
-			'start_date_local',
-			'moving_time',
-			'elapsed_time',
-			'total_elevation_gain',
-			'type',
-			'athlete_count',
-			'gear_id',
-			'average_speed',
-			'max_speed',
-			'elev_low',
-			'elev_high',
-			'average_heartrate',
-			'max_heartrate',
-		]),
-	);
+	const allActivities: ApiActivity[] = [];
+	let fetching = true;
 
-	return activities;
+	while (fetching) {
+		const res = await fetch(`${baseUrl}/athlete/activities?per_page=${perPage}&page=${page}`, fetchOptions);
+		const data: ApiActivity[] = await res.json();
+
+		const activities: ApiActivity[] = data.map((activity) =>
+			pick(activity, [
+				'id',
+				'name',
+				'distance',
+				'start_date',
+				'start_date_local',
+				'moving_time',
+				'elapsed_time',
+				'total_elevation_gain',
+				'type',
+				'athlete_count',
+				'gear_id',
+				'average_speed',
+				'max_speed',
+				'elev_low',
+				'elev_high',
+				'average_heartrate',
+				'max_heartrate',
+			]),
+		);
+		allActivities.push(...activities);
+
+		// Stop fetching when there are no more to fetch or 1000 have been fetched
+		if (activities.length < perPage || page === 5) {
+			fetching = false;
+		}
+
+		page++;
+	}
+
+	return allActivities;
 };
 
 const getStats = async (fetchOptions: object, athleteId: number | string): Promise<ApiStats> => {
