@@ -6,12 +6,14 @@ import Loading from './Loading';
 import Logout from './Logout';
 import UserData from './UserData';
 
+const MOCK_TOKEN = process.env.ENABLE_MOCKS === 'true' && 'MOCK_TOKEN';
+
 const Home = () => {
 	const cookieStore: ReadonlyRequestCookies = cookies();
 	const getCookie = (cookieName: string): string | undefined => cookieStore.get(cookieName)?.value;
 
 	const error = getCookie('error');
-	const accessToken = getCookie('accessToken');
+	const accessToken = getCookie('accessToken') || MOCK_TOKEN;
 	const firstName = getCookie('firstName');
 	const profilePicture = getCookie('profilePicture');
 

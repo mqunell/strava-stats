@@ -1,3 +1,4 @@
+import { mockActivities, mockAthlete, mockStats } from '@/testing/mocks/strava';
 import { pick } from './utils';
 
 const baseUrl = 'https://www.strava.com/api/v3';
@@ -76,6 +77,15 @@ const getStats = async (fetchOptions: object, athleteId: number | string): Promi
 };
 
 export const getStravaData = async (accessToken: string): Promise<AllApiData> => {
+	// TODO: When Next.js supports msw properly, remove this and setup browser mocking
+	if (process.env.ENABLE_MOCKS === 'true') {
+		return {
+			athlete: mockAthlete,
+			activities: mockActivities,
+			stats: mockStats,
+		};
+	}
+
 	const fetchOptions = {
 		method: 'GET',
 		headers: { Authorization: `Bearer ${accessToken}` },

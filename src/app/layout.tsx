@@ -1,11 +1,5 @@
 import { Metadata } from 'next';
 import '@/styles/globals.css';
-import { server } from '../testing/msw/server';
-
-if (process.env.NODE_ENV === 'development') {
-	console.log('🔥 Using msw endpoint handlers 🔥');
-	server.listen();
-}
 
 export const metadata: Metadata = {
 	title: 'Strava Stats',
