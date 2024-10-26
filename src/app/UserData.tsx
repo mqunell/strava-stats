@@ -11,11 +11,11 @@ const UserData = async ({ accessToken }: { accessToken: string }) => {
 		<section>
 			<p>{accessToken}</p>
 			<hr />
-			<span className="text-lg font-semibold">Gear</span>
+			<h2 className="text-lg font-semibold">Gear</h2>
 			{athlete.shoes?.map((gear) => <GearStats key={gear.id} icon="👟" gear={gear} allActivities={activities} />)}
 			{athlete.bikes?.map((gear) => <GearStats key={gear.id} icon="🚲" gear={gear} allActivities={activities} />)}
 
-			<span className="text-lg font-semibold">Weekly Distance</span>
+			<h2 className="text-lg font-semibold">Weekly Distance</h2>
 			<DistanceGraph activities={activities} />
 		</section>
 	);

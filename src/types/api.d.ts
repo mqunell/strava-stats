@@ -35,10 +35,10 @@ type ApiActivity = {
 	gear_id: string | null; // GearResponse.id
 	average_speed: number; // meters per second
 	max_speed: number;
-	elev_low: number;
-	elev_high: number;
-	average_heartrate: number;
-	max_heartrate: number;
+	elev_low?: number; // Rarely not included
+	elev_high?: number; // Rarely not included
+	average_heartrate?: number; // Rarely not included
+	max_heartrate?: number; // Rarely not included
 };
 
 // GET:/athletes/{id}/stats

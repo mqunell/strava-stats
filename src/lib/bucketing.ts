@@ -58,7 +58,7 @@ export const formatGraphBuckets = (buckets: WeeklyBuckets): GraphBucket[] => {
 		}
 
 		output.push({
-			week: key,
+			week: key.slice(5),
 			rideMeters: rounded(rideMeters),
 			rideMiles: rounded(metersToMiles(rideMeters)),
 			runMeters: rounded(runMeters),

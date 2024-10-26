@@ -11,15 +11,17 @@ const GearStats = ({ icon, gear, allActivities }: { icon: string; gear: ApiGear;
 
 	const recentDistance = recentActivities.reduce((total, activity) => total + activity.distance, 0);
 
-	if (!recentActivities.length) return null;
-
 	return (
 		<div className="mb-2">
 			{icon} {gear.name}
 			<br />
 			{gear.converted_distance} total miles
-			<br />
-			{rounded(metersToMiles(recentDistance))} recent miles ({recentActivities.length} activities)
+			{recentDistance > 0 && (
+				<>
+					<br />
+					{rounded(metersToMiles(recentDistance))} recent miles ({recentActivities.length} activities)
+				</>
+			)}
 		</div>
 	);
 };

@@ -42,9 +42,9 @@ describe('bucketing', () => {
 
 	test('formatGraphBuckets', () => {
 		expect(formatGraphBuckets(mockBuckets)).toStrictEqual([
-			{ week: '2024-07-22', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 600, walkMiles: 0.37 },
+			{ week: '07-22', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 600, walkMiles: 0.37 },
 			{
-				week: '2024-07-29',
+				week: '07-29',
 				rideMeters: 300,
 				rideMiles: 0.19,
 				runMeters: 700,
@@ -53,7 +53,7 @@ describe('bucketing', () => {
 				walkMiles: 0.31,
 			},
 			{
-				week: '2024-08-05',
+				week: '08-05',
 				rideMeters: 600,
 				rideMiles: 0.37,
 				runMeters: 600,
@@ -61,10 +61,10 @@ describe('bucketing', () => {
 				walkMeters: 0,
 				walkMiles: 0,
 			},
-			{ week: '2024-08-12', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 0, walkMiles: 0 },
-			{ week: '2024-08-19', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 0, walkMiles: 0 },
-			{ week: '2024-08-26', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 5000, walkMiles: 3.11 },
-			{ week: '2024-09-02', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 5000, walkMiles: 3.11 },
+			{ week: '08-12', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 0, walkMiles: 0 },
+			{ week: '08-19', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 0, walkMiles: 0 },
+			{ week: '08-26', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 5000, walkMiles: 3.11 },
+			{ week: '09-02', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 5000, walkMiles: 3.11 },
 		]);
 	});
 });
