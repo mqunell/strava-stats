@@ -1,12 +1,6 @@
 import { http, HttpResponse } from 'msw';
+import { paginate } from '@/lib/utils';
 import { mockActivities, mockAthlete, mockStats } from '../mocks/strava';
-
-export const paginate = ({ data, page, perPage }: { data: any[]; page?: number; perPage?: number }): any[] => {
-	const stop = perPage || 30;
-	const start = page ? (page - 1) * stop : 0;
-
-	return data.slice(start, start + stop);
-};
 
 export const handlers = [
 	// GET:/athlete
@@ -24,7 +18,7 @@ export const handlers = [
 		const perPage = Number(url.searchParams.get('per_page'));
 		const page = Number(url.searchParams.get('page'));
 
-		const paginated = paginate({ data: mockActivities, perPage, page });
+		const paginated = paginate({ data: mockActivities, limit: perPage, page });
 		return HttpResponse.json(paginated);
 	}),
 
