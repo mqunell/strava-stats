@@ -1,8 +1,6 @@
-import dynamic from 'next/dynamic';
 import { getStravaData } from '@/lib/getStravaData';
+import DistanceGraph from './DistanceGraph';
 import GearStats from './GearStats';
-
-const DistanceGraph = dynamic(() => import('./DistanceGraph'), { ssr: false });
 
 const UserData = async ({ accessToken }: { accessToken: string }) => {
 	const { athlete, activities, stats }: AllApiData = await getStravaData(accessToken);

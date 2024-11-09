@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts';
 import { formatGraphBuckets, parseWeeklyBuckets } from '@/lib/bucketing';
 import { paginateReverse } from '@/lib/utils';
@@ -13,6 +13,10 @@ const Toggle = ({ label, checked, setChecked }: { label: string; checked: boolea
 );
 
 const DistanceGraph = ({ activities }: { activities: ApiActivity[] }) => {
+	// https://nextjs.org/docs/messages/react-hydration-error#solution-1-using-useeffect-to-run-on-the-client-only
+	const [hydrated, setHydrated] = useState(false);
+	useEffect(() => setHydrated(true));
+
 	const [showMiles, setShowMiles] = useState(true);
 	const [showWalk, setShowWalk] = useState(true);
 	const [showRun, setShowRun] = useState(true);
@@ -25,6 +29,8 @@ const DistanceGraph = ({ activities }: { activities: ApiActivity[] }) => {
 
 	const canPaginateLeft = paginated[0].week !== graphBuckets[0].week;
 	const canPaginateRight = page > 0;
+
+	if (!hydrated) return null;
 
 	return (
 		<section>

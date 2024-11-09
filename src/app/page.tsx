@@ -8,8 +8,8 @@ import UserData from './UserData';
 
 const MOCK_TOKEN = process.env.ENABLE_MOCKS === 'true' && 'MOCK_TOKEN';
 
-const Home = () => {
-	const cookieStore: ReadonlyRequestCookies = cookies();
+const Home = async () => {
+	const cookieStore: ReadonlyRequestCookies = await cookies();
 	const getCookie = (cookieName: string): string | undefined => cookieStore.get(cookieName)?.value;
 
 	const error = getCookie('error');
@@ -33,11 +33,10 @@ const Home = () => {
 			<Suspense fallback={<Loading />}>
 				<UserData accessToken={accessToken} />
 			</Suspense>
-
 			<Logout
 				action={async () => {
 					'use server';
-					const cookieStore: ReadonlyRequestCookies = cookies();
+					const cookieStore: ReadonlyRequestCookies = await cookies();
 					cookieStore.delete('accessToken');
 					cookieStore.delete('firstName');
 					cookieStore.delete('profilePicture');

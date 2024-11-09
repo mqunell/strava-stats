@@ -11,8 +11,10 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
 	const authCode = searchParams.get('code');
 	const authedScopes = searchParams.get('scope') ?? '';
 
+	const cookieStore: ReadonlyRequestCookies = await cookies();
+
 	if (!requiredScopes.every((scope) => authedScopes.includes(scope))) {
-		cookies().set('error', 'The requested scopes must be authorized. Please try again.');
+		cookieStore.set('error', 'The requested scopes must be authorized. Please try again.');
 		return NextResponse.redirect(ROOT_URL!);
 	}
 
@@ -32,7 +34,6 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
 
 		const stravaData = await stravaRes.json();
 
-		const cookieStore: ReadonlyRequestCookies = cookies();
 		cookieStore.delete('error');
 		cookieStore.set('accessToken', stravaData?.access_token, { maxAge: 60 * 60 * 2 });
 		cookieStore.set('firstName', stravaData?.athlete?.firstname, { maxAge: 60 * 60 * 2 });
