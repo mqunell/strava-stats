@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
-import { cookies } from 'next/headers'
+import { deleteCookie, getCookie } from '@/lib/cookies'
 import Authenticate from './Authenticate'
+import Header from './Header'
 import Loading from './Loading'
 import Logout from './Logout'
 import UserData from './UserData'
@@ -9,13 +9,8 @@ import UserData from './UserData'
 const MOCK_TOKEN = process.env.ENABLE_MOCKS === 'true' && 'MOCK_TOKEN'
 
 const Home = async () => {
-	const cookieStore: ReadonlyRequestCookies = await cookies()
-	const getCookie = (cookieName: string): string | undefined => cookieStore.get(cookieName)?.value
-
-	const error = getCookie('error')
-	const accessToken = getCookie('accessToken') || MOCK_TOKEN
-	const firstName = getCookie('firstName')
-	const profilePicture = getCookie('profilePicture')
+	const error = await getCookie('error')
+	const accessToken = (await getCookie('accessToken')) || MOCK_TOKEN
 
 	if (!accessToken) {
 		return (
@@ -28,18 +23,16 @@ const Home = async () => {
 
 	return (
 		<section className="flex flex-col items-center p-6">
-			{profilePicture ? <img src={profilePicture} /> : null}
-			<p>Hey{firstName ? ` ${firstName}` : ''}!</p>
+			<Header />
 			<Suspense fallback={<Loading />}>
 				<UserData accessToken={accessToken} />
 			</Suspense>
 			<Logout
 				action={async () => {
 					'use server'
-					const cookieStore: ReadonlyRequestCookies = await cookies()
-					cookieStore.delete('accessToken')
-					cookieStore.delete('firstName')
-					cookieStore.delete('profilePicture')
+					await deleteCookie('accessToken')
+					await deleteCookie('firstName')
+					await deleteCookie('profilePicture')
 				}}
 			/>
 		</section>

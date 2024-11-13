@@ -7,8 +7,6 @@ const UserData = async ({ accessToken }: { accessToken: string }) => {
 
 	return (
 		<section>
-			<p>{accessToken}</p>
-			<hr />
 			<h2 className="text-lg font-semibold">Gear</h2>
 			{athlete.shoes?.map((gear) => (
 				<GearStats key={gear.id} icon="👟" gear={gear} allActivities={activities} />
