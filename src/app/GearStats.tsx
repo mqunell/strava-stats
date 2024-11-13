@@ -37,7 +37,7 @@ const GearStats = ({
 	)
 
 	return (
-		<div className="mb-2 flex flex-col rounded border px-5 py-4">
+		<div className="rounded border px-5 py-4">
 			<p>
 				{icon} <span className="font-semibold">{gear.name}</span>
 			</p>

@@ -1,9 +1,8 @@
 import { Suspense } from 'react'
-import { deleteCookie, getCookie } from '@/lib/cookies'
+import { getCookie } from '@/lib/cookies'
 import Authenticate from './Authenticate'
 import Header from './Header'
 import Loading from './Loading'
-import Logout from './Logout'
 import UserData from './UserData'
 
 const MOCK_TOKEN = process.env.ENABLE_MOCKS === 'true' && 'MOCK_TOKEN'
@@ -14,28 +13,20 @@ const Home = async () => {
 
 	if (!accessToken) {
 		return (
-			<section className="flex h-screen w-screen flex-col items-center justify-center">
+			<main className="flex h-screen w-screen flex-col items-center justify-center">
 				{error && <p>{error}</p>}
 				<Authenticate />
-			</section>
+			</main>
 		)
 	}
 
 	return (
-		<section className="flex flex-col items-center p-6">
+		<main className="flex flex-col items-center gap-2 p-6">
 			<Header />
 			<Suspense fallback={<Loading />}>
 				<UserData accessToken={accessToken} />
 			</Suspense>
-			<Logout
-				action={async () => {
-					'use server'
-					await deleteCookie('accessToken')
-					await deleteCookie('firstName')
-					await deleteCookie('profilePicture')
-				}}
-			/>
-		</section>
+		</main>
 	)
 }
 
