@@ -1,5 +1,5 @@
 const Loading = () => {
-	return <span className="animate-spin">Loading...</span>;
-};
+	return <span className="animate-spin">Loading...</span>
+}
 
-export default Loading;
+export default Loading

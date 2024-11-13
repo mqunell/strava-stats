@@ -1,10 +1,10 @@
-import { render, screen } from '@testing-library/react';
-import Home from './page';
+import { render, screen } from '@testing-library/react'
+import Home from './page'
 
 describe.skip('Home', () => {
 	it('renders links', () => {
-		render(<Home />);
+		render(<Home />)
 
 		// TODO: Test rendering based on cookies
-	});
-});
+	})
+})

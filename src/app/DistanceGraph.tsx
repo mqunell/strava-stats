@@ -1,36 +1,44 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts';
-import { formatGraphBuckets, parseWeeklyBuckets } from '@/lib/bucketing';
-import { paginateReverse } from '@/lib/utils';
+import { useEffect, useState } from 'react'
+import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from 'recharts'
+import { formatGraphBuckets, parseWeeklyBuckets } from '@/lib/bucketing'
+import { paginateReverse } from '@/lib/utils'
 
-const Toggle = ({ label, checked, setChecked }: { label: string; checked: boolean; setChecked: Function }) => (
+const Toggle = ({
+	label,
+	checked,
+	setChecked,
+}: {
+	label: string
+	checked: boolean
+	setChecked: Function
+}) => (
 	<label className="flex gap-1">
 		<input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
 		{label}
 	</label>
-);
+)
 
 const DistanceGraph = ({ activities }: { activities: ApiActivity[] }) => {
 	// https://nextjs.org/docs/messages/react-hydration-error#solution-1-using-useeffect-to-run-on-the-client-only
-	const [hydrated, setHydrated] = useState(false);
-	useEffect(() => setHydrated(true));
+	const [hydrated, setHydrated] = useState(false)
+	useEffect(() => setHydrated(true))
 
-	const [showMiles, setShowMiles] = useState(true);
-	const [showWalk, setShowWalk] = useState(true);
-	const [showRun, setShowRun] = useState(true);
-	const [showRide, setShowRide] = useState(true);
-	const [page, setPage] = useState(0);
+	const [showMiles, setShowMiles] = useState(true)
+	const [showWalk, setShowWalk] = useState(true)
+	const [showRun, setShowRun] = useState(true)
+	const [showRide, setShowRide] = useState(true)
+	const [page, setPage] = useState(0)
 
-	const weeklyBuckets: WeeklyBuckets = parseWeeklyBuckets(activities);
-	const graphBuckets: GraphBucket[] = formatGraphBuckets(weeklyBuckets);
-	const paginated: GraphBucket[] = paginateReverse({ data: graphBuckets, page, limit: 8 });
+	const weeklyBuckets: WeeklyBuckets = parseWeeklyBuckets(activities)
+	const graphBuckets: GraphBucket[] = formatGraphBuckets(weeklyBuckets)
+	const paginated: GraphBucket[] = paginateReverse({ data: graphBuckets, page, limit: 8 })
 
-	const canPaginateLeft = paginated[0].week !== graphBuckets[0].week;
-	const canPaginateRight = page > 0;
+	const canPaginateLeft = paginated[0].week !== graphBuckets[0].week
+	const canPaginateRight = page > 0
 
-	if (!hydrated) return null;
+	if (!hydrated) return null
 
 	return (
 		<section>
@@ -46,9 +54,15 @@ const DistanceGraph = ({ activities }: { activities: ApiActivity[] }) => {
 				<XAxis dataKey="week" />
 				<YAxis />
 				<Tooltip />
-				{showWalk && <Bar dataKey={showMiles ? 'walkMiles' : 'walkMeters'} name="Walk" fill="#bccad6" />}
-				{showRun && <Bar dataKey={showMiles ? 'runMiles' : 'runMeters'} name="Run" fill="#8d9db6" />}
-				{showRide && <Bar dataKey={showMiles ? 'rideMiles' : 'rideMeters'} name="Bike" fill="#667292" />}
+				{showWalk && (
+					<Bar dataKey={showMiles ? 'walkMiles' : 'walkMeters'} name="Walk" fill="#bccad6" />
+				)}
+				{showRun && (
+					<Bar dataKey={showMiles ? 'runMiles' : 'runMeters'} name="Run" fill="#8d9db6" />
+				)}
+				{showRide && (
+					<Bar dataKey={showMiles ? 'rideMiles' : 'rideMeters'} name="Bike" fill="#667292" />
+				)}
 			</BarChart>
 
 			<div className="flex">
@@ -61,7 +75,7 @@ const DistanceGraph = ({ activities }: { activities: ApiActivity[] }) => {
 				)}
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export default DistanceGraph;
+export default DistanceGraph

@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { Metadata } from 'next'
 
 export const basicMetadata = (text: string): Metadata => ({
 	title: text,
@@ -6,4 +6,4 @@ export const basicMetadata = (text: string): Metadata => ({
 	icons: {
 		icon: '/favicon.ico',
 	},
-});
+})

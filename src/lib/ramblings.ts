@@ -4,42 +4,46 @@ export const maxActivityStat = (
 	stat: 'distance' | 'moving_time' | 'average_speed',
 ): ApiActivity | null => {
 	if (!activities.length) {
-		return null;
+		return null
 	}
 
-	let max = activities[0];
+	let max = activities[0]
 	for (const activity of activities) {
 		if (activity[stat] > max[stat]) {
-			max = activity;
+			max = activity
 		}
 	}
 
-	return max;
-};
+	return max
+}
 
-export const estimatedFastestDistance = (activities: ApiActivity[], distance: number): ApiActivity | null => {
+export const estimatedFastestDistance = (
+	activities: ApiActivity[],
+	distance: number,
+): ApiActivity | null => {
 	if (!activities.length) {
-		return null;
+		return null
 	}
 
-	const eligibleActivities = activities.filter((activity) => activity.distance >= distance);
-	return maxActivityStat(eligibleActivities, 'average_speed');
-};
+	const eligibleActivities = activities.filter((activity) => activity.distance >= distance)
+	return maxActivityStat(eligibleActivities, 'average_speed')
+}
 
 // Assumes activities are filtered to runs
 // 10 minute mile threshold = 6 miles per hour = 2.68 meters per second
 export const averageRunHR = (activities: ApiActivity[], speed: 'slow' | 'fast'): number | null => {
-	let eligibleCount = 0;
-	let cumulativeHR = 0;
+	let eligibleCount = 0
+	let cumulativeHR = 0
 
 	for (const activity of activities) {
-		const isEligible = speed === 'slow' ? activity.average_speed <= 2.68 : activity.average_speed > 2.68;
+		const isEligible =
+			speed === 'slow' ? activity.average_speed <= 2.68 : activity.average_speed > 2.68
 
 		if (isEligible) {
-			eligibleCount++;
-			cumulativeHR += activity.average_heartrate;
+			eligibleCount++
+			cumulativeHR += activity.average_heartrate
 		}
 	}
 
-	return Number((cumulativeHR / eligibleCount).toFixed(1)) || null;
-};
+	return Number((cumulativeHR / eligibleCount).toFixed(1)) || null
+}

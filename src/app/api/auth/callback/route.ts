@@ -1,21 +1,21 @@
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
-import { cookies } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
+import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
+import { cookies } from 'next/headers'
+import { NextRequest, NextResponse } from 'next/server'
 
-const { CLIENT_ID, CLIENT_SECRET, ROOT_URL } = process.env;
+const { CLIENT_ID, CLIENT_SECRET, ROOT_URL } = process.env
 
-const requiredScopes = ['activity:read_all', 'profile:read_all'];
+const requiredScopes = ['activity:read_all', 'profile:read_all']
 
 export const GET = async (req: NextRequest): Promise<NextResponse> => {
-	const { searchParams } = new URL(req.url);
-	const authCode = searchParams.get('code');
-	const authedScopes = searchParams.get('scope') ?? '';
+	const { searchParams } = new URL(req.url)
+	const authCode = searchParams.get('code')
+	const authedScopes = searchParams.get('scope') ?? ''
 
-	const cookieStore: ReadonlyRequestCookies = await cookies();
+	const cookieStore: ReadonlyRequestCookies = await cookies()
 
 	if (!requiredScopes.every((scope) => authedScopes.includes(scope))) {
-		cookieStore.set('error', 'The requested scopes must be authorized. Please try again.');
-		return NextResponse.redirect(ROOT_URL!);
+		cookieStore.set('error', 'The requested scopes must be authorized. Please try again.')
+		return NextResponse.redirect(ROOT_URL!)
 	}
 
 	try {
@@ -30,17 +30,17 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
 				grant_type: 'authorization_code',
 				code: authCode,
 			}),
-		});
+		})
 
-		const stravaData = await stravaRes.json();
+		const stravaData = await stravaRes.json()
 
-		cookieStore.delete('error');
-		cookieStore.set('accessToken', stravaData?.access_token, { maxAge: 60 * 60 * 2 });
-		cookieStore.set('firstName', stravaData?.athlete?.firstname, { maxAge: 60 * 60 * 2 });
-		cookieStore.set('profilePicture', stravaData?.athlete?.profile, { maxAge: 60 * 60 * 2 });
+		cookieStore.delete('error')
+		cookieStore.set('accessToken', stravaData?.access_token, { maxAge: 60 * 60 * 2 })
+		cookieStore.set('firstName', stravaData?.athlete?.firstname, { maxAge: 60 * 60 * 2 })
+		cookieStore.set('profilePicture', stravaData?.athlete?.profile, { maxAge: 60 * 60 * 2 })
 	} catch (error) {
-		console.error('error with /api/auth/callback', error);
+		console.error('error with /api/auth/callback', error)
 	}
 
-	return NextResponse.redirect(ROOT_URL!);
-};
+	return NextResponse.redirect(ROOT_URL!)
+}

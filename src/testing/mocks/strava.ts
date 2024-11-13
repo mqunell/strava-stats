@@ -569,7 +569,7 @@ export const mockActivities: ApiActivity[] = [
 		average_heartrate: 103.6,
 		max_heartrate: 118,
 	},
-];
+]
 
 export const mockAthlete: ApiAthlete = {
 	id: 102209004,
@@ -605,7 +605,7 @@ export const mockAthlete: ApiAthlete = {
 			converted_distance: 396.8,
 		},
 	],
-};
+}
 
 export const mockStats: ApiStats = {
 	recent_ride_totals: {
@@ -650,4 +650,4 @@ export const mockStats: ApiStats = {
 		elapsed_time: 80826,
 		elevation_gain: 2627,
 	},
-};
+}

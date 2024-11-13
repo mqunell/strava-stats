@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from 'next/link'
 
 const Authenticate = () => {
 	return (
@@ -8,7 +8,7 @@ const Authenticate = () => {
 		>
 			🏃‍➡️ Authenticate with Strava 🚲
 		</Link>
-	);
-};
+	)
+}
 
-export default Authenticate;
+export default Authenticate

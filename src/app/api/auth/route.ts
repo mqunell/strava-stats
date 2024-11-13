@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import { stringify } from 'querystring';
+import { NextResponse } from 'next/server'
+import { stringify } from 'querystring'
 
-const { CLIENT_ID, ROOT_URL } = process.env;
+const { CLIENT_ID, ROOT_URL } = process.env
 
 export const GET = async (): Promise<NextResponse> => {
 	return NextResponse.redirect(
@@ -13,5 +13,5 @@ export const GET = async (): Promise<NextResponse> => {
 				approval_prompt: 'force',
 				scope: 'profile:read_all,activity:read_all',
 			}),
-	);
-};
+	)
+}

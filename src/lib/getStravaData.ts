@@ -1,30 +1,41 @@
-import { mockActivities, mockAthlete, mockStats } from '@/testing/mocks/strava';
-import { pick } from './utils';
+import { mockActivities, mockAthlete, mockStats } from '@/testing/mocks/strava'
+import { pick } from './utils'
 
-const baseUrl = 'https://www.strava.com/api/v3';
+const baseUrl = 'https://www.strava.com/api/v3'
 
 const getAthlete = async (fetchOptions: object): Promise<ApiAthlete> => {
-	const res = await fetch(`${baseUrl}/athlete`, fetchOptions);
-	const data: ApiAthlete = await res.json();
+	const res = await fetch(`${baseUrl}/athlete`, fetchOptions)
+	const data: ApiAthlete = await res.json()
 
-	const athlete: ApiAthlete = pick(data, ['id', 'firstname', 'lastname', 'created_at', 'updated_at', 'bikes', 'shoes']);
-	const gearKeys: (keyof ApiGear)[] = ['id', 'name', 'distance', 'converted_distance'];
-	athlete.bikes = athlete.bikes.map((gear) => pick(gear, gearKeys));
-	athlete.shoes = athlete.shoes.map((gear) => pick(gear, gearKeys));
+	const athlete: ApiAthlete = pick(data, [
+		'id',
+		'firstname',
+		'lastname',
+		'created_at',
+		'updated_at',
+		'bikes',
+		'shoes',
+	])
+	const gearKeys: (keyof ApiGear)[] = ['id', 'name', 'distance', 'converted_distance']
+	athlete.bikes = athlete.bikes.map((gear) => pick(gear, gearKeys))
+	athlete.shoes = athlete.shoes.map((gear) => pick(gear, gearKeys))
 
-	return athlete;
-};
+	return athlete
+}
 
 const getActivities = async (fetchOptions: object): Promise<ApiActivity[]> => {
-	const perPage = 200;
-	let page = 1;
+	const perPage = 200
+	let page = 1
 
-	const allActivities: ApiActivity[] = [];
-	let fetching = true;
+	const allActivities: ApiActivity[] = []
+	let fetching = true
 
 	while (fetching) {
-		const res = await fetch(`${baseUrl}/athlete/activities?per_page=${perPage}&page=${page}`, fetchOptions);
-		const data: ApiActivity[] = await res.json();
+		const res = await fetch(
+			`${baseUrl}/athlete/activities?per_page=${perPage}&page=${page}`,
+			fetchOptions,
+		)
+		const data: ApiActivity[] = await res.json()
 
 		const activities: ApiActivity[] = data.map((activity) =>
 			pick(activity, [
@@ -46,23 +57,23 @@ const getActivities = async (fetchOptions: object): Promise<ApiActivity[]> => {
 				'average_heartrate',
 				'max_heartrate',
 			]),
-		);
-		allActivities.push(...activities);
+		)
+		allActivities.push(...activities)
 
 		// Stop fetching when there are no more to fetch or 1000 have been fetched
 		if (activities.length < perPage || page === 5) {
-			fetching = false;
+			fetching = false
 		}
 
-		page++;
+		page++
 	}
 
-	return allActivities;
-};
+	return allActivities
+}
 
 const getStats = async (fetchOptions: object, athleteId: number | string): Promise<ApiStats> => {
-	const res = await fetch(`${baseUrl}/athletes/${athleteId}/stats`, fetchOptions);
-	const data: ApiStats = await res.json();
+	const res = await fetch(`${baseUrl}/athletes/${athleteId}/stats`, fetchOptions)
+	const data: ApiStats = await res.json()
 
 	const stats = pick(data, [
 		'recent_ride_totals',
@@ -71,10 +82,10 @@ const getStats = async (fetchOptions: object, athleteId: number | string): Promi
 		'recent_run_totals',
 		'all_run_totals',
 		'ytd_run_totals',
-	]);
+	])
 
-	return stats;
-};
+	return stats
+}
 
 export const getStravaData = async (accessToken: string): Promise<AllApiData> => {
 	// TODO: When Next.js supports msw properly, remove this and setup browser mocking
@@ -83,17 +94,17 @@ export const getStravaData = async (accessToken: string): Promise<AllApiData> =>
 			athlete: mockAthlete,
 			activities: mockActivities,
 			stats: mockStats,
-		};
+		}
 	}
 
 	const fetchOptions = {
 		method: 'GET',
 		headers: { Authorization: `Bearer ${accessToken}` },
-	};
+	}
 
-	const athlete: ApiAthlete = await getAthlete(fetchOptions);
-	const activities: ApiActivity[] = await getActivities(fetchOptions);
-	const stats: ApiStats = await getStats(fetchOptions, athlete.id);
+	const athlete: ApiAthlete = await getAthlete(fetchOptions)
+	const activities: ApiActivity[] = await getActivities(fetchOptions)
+	const stats: ApiStats = await getStats(fetchOptions, athlete.id)
 
-	return { athlete, activities, stats };
-};
+	return { athlete, activities, stats }
+}

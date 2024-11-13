@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 const Logout = ({ action }: { action: () => Promise<void> }) => {
 	return (
@@ -8,7 +8,7 @@ const Logout = ({ action }: { action: () => Promise<void> }) => {
 		>
 			Logout
 		</button>
-	);
-};
+	)
+}
 
-export default Logout;
+export default Logout

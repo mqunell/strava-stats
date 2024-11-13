@@ -1,4 +1,4 @@
-import { parseWeeklyBuckets, formatGraphBuckets } from './bucketing';
+import { parseWeeklyBuckets, formatGraphBuckets } from './bucketing'
 
 describe('bucketing', () => {
 	const mocks: ApiActivity[] = [
@@ -23,7 +23,7 @@ describe('bucketing', () => {
 		{ start_date_local: '2024-09-04T18:57:26Z', type: 'Walk', distance: 1000 } as ApiActivity,
 		{ start_date_local: '2024-09-06T19:17:41Z', type: 'Walk', distance: 1000 } as ApiActivity,
 		{ start_date_local: '2024-09-07T10:30:52Z', type: 'Walk', distance: 1000 } as ApiActivity,
-	];
+	]
 
 	const mockBuckets: WeeklyBuckets = {
 		'2024-07-22': [mocks[0], mocks[1], mocks[2]],
@@ -33,16 +33,24 @@ describe('bucketing', () => {
 		'2024-08-19': [],
 		'2024-08-26': [mocks[10], mocks[11], mocks[12], mocks[13], mocks[14]],
 		'2024-09-02': [mocks[15], mocks[16], mocks[17], mocks[18], mocks[19]],
-	};
+	}
 
 	test('parseWeeklyBuckets', () => {
-		const reverseChronoMocks = [...mocks].reverse();
-		expect(parseWeeklyBuckets(reverseChronoMocks)).toStrictEqual(mockBuckets);
-	});
+		const reverseChronoMocks = [...mocks].reverse()
+		expect(parseWeeklyBuckets(reverseChronoMocks)).toStrictEqual(mockBuckets)
+	})
 
 	test('formatGraphBuckets', () => {
 		expect(formatGraphBuckets(mockBuckets)).toStrictEqual([
-			{ week: '07-22', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 600, walkMiles: 0.37 },
+			{
+				week: '07-22',
+				rideMeters: 0,
+				rideMiles: 0,
+				runMeters: 0,
+				runMiles: 0,
+				walkMeters: 600,
+				walkMiles: 0.37,
+			},
 			{
 				week: '07-29',
 				rideMeters: 300,
@@ -61,10 +69,42 @@ describe('bucketing', () => {
 				walkMeters: 0,
 				walkMiles: 0,
 			},
-			{ week: '08-12', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 0, walkMiles: 0 },
-			{ week: '08-19', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 0, walkMiles: 0 },
-			{ week: '08-26', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 5000, walkMiles: 3.11 },
-			{ week: '09-02', rideMeters: 0, rideMiles: 0, runMeters: 0, runMiles: 0, walkMeters: 5000, walkMiles: 3.11 },
-		]);
-	});
-});
+			{
+				week: '08-12',
+				rideMeters: 0,
+				rideMiles: 0,
+				runMeters: 0,
+				runMiles: 0,
+				walkMeters: 0,
+				walkMiles: 0,
+			},
+			{
+				week: '08-19',
+				rideMeters: 0,
+				rideMiles: 0,
+				runMeters: 0,
+				runMiles: 0,
+				walkMeters: 0,
+				walkMiles: 0,
+			},
+			{
+				week: '08-26',
+				rideMeters: 0,
+				rideMiles: 0,
+				runMeters: 0,
+				runMiles: 0,
+				walkMeters: 5000,
+				walkMiles: 3.11,
+			},
+			{
+				week: '09-02',
+				rideMeters: 0,
+				rideMiles: 0,
+				runMeters: 0,
+				runMiles: 0,
+				walkMeters: 5000,
+				walkMiles: 3.11,
+			},
+		])
+	})
+})
