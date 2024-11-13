@@ -1,5 +1,6 @@
 import { metersToMiles, rounded } from '@/lib/utils'
 
+// Count the total distance for each activity type, ex. { Walk: 6, Run: 15 }
 export const activityTypeDistances = (activities: ApiActivity[]): { [key: string]: number } => {
 	const results: { [key: string]: number } = {}
 
@@ -11,7 +12,7 @@ export const activityTypeDistances = (activities: ApiActivity[]): { [key: string
 	return results
 }
 
-const GearStats = ({
+const GearStat = ({
 	icon,
 	gear,
 	allActivities,
@@ -57,5 +58,16 @@ const GearStats = ({
 		</div>
 	)
 }
+
+const GearStats = ({ athlete, activities }: { athlete: ApiAthlete; activities: ApiActivity[] }) => (
+	<div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+		{athlete.shoes?.map((gear) => (
+			<GearStat key={gear.id} icon="👟" gear={gear} allActivities={activities} />
+		))}
+		{athlete.bikes?.map((gear) => (
+			<GearStat key={gear.id} icon="🚲" gear={gear} allActivities={activities} />
+		))}
+	</div>
+)
 
 export default GearStats

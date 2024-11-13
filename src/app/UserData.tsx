@@ -9,14 +9,7 @@ const UserData = async ({ accessToken }: { accessToken: string }) => {
 		<>
 			<section className="w-full max-w-screen-sm">
 				<h2 className="text-lg font-semibold">Gear</h2>
-				<div className="flex flex-col gap-2">
-					{athlete.shoes?.map((gear) => (
-						<GearStats key={gear.id} icon="👟" gear={gear} allActivities={activities} />
-					))}
-					{athlete.bikes?.map((gear) => (
-						<GearStats key={gear.id} icon="🚲" gear={gear} allActivities={activities} />
-					))}
-				</div>
+				<GearStats athlete={athlete} activities={activities} />
 			</section>
 
 			<section className="w-full max-w-screen-sm">
