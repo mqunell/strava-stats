@@ -41,7 +41,7 @@ export const averageRunHR = (activities: ApiActivity[], speed: 'slow' | 'fast'):
 
 		if (isEligible) {
 			eligibleCount++
-			cumulativeHR += activity.average_heartrate
+			cumulativeHR += activity.average_heartrate ?? 0
 		}
 	}
 

@@ -1,4 +1,6 @@
-import { mockActivities, mockAthlete, mockStats } from '@/testing/mocks/strava'
+import { mockActivities } from '@/testing/mocks/activities'
+import { mockAthlete } from '@/testing/mocks/athlete'
+import { mockStats } from '@/testing/mocks/stats'
 import { pick } from './utils'
 
 const baseUrl = 'https://www.strava.com/api/v3'

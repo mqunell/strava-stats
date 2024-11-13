@@ -1,6 +1,8 @@
 import { http, HttpResponse } from 'msw'
 import { paginate } from '@/lib/utils'
-import { mockActivities, mockAthlete, mockStats } from '../mocks/strava'
+import { mockActivities } from '../mocks/activities'
+import { mockAthlete } from '../mocks/athlete'
+import { mockStats } from '../mocks/stats'
 
 export const handlers = [
 	// GET:/athlete
