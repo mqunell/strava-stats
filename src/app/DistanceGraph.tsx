@@ -14,7 +14,7 @@ const Toggle = ({
 	checked: boolean
 	setChecked: Function
 }) => (
-	<label className="flex gap-1">
+	<label className="flex items-center gap-1">
 		<input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
 		{label}
 	</label>
@@ -23,12 +23,12 @@ const Toggle = ({
 const DistanceGraph = ({ activities }: { activities: ApiActivity[] }) => {
 	// https://nextjs.org/docs/messages/react-hydration-error#solution-1-using-useeffect-to-run-on-the-client-only
 	const [hydrated, setHydrated] = useState(false)
-	useEffect(() => setHydrated(true))
+	useEffect(() => setHydrated(true), [])
 
-	const [showMiles, setShowMiles] = useState(true)
 	const [showWalk, setShowWalk] = useState(true)
 	const [showRun, setShowRun] = useState(true)
 	const [showRide, setShowRide] = useState(true)
+	const [useMiles, setUseMiles] = useState(true)
 	const [page, setPage] = useState(0)
 
 	const weeklyBuckets: WeeklyBuckets = parseWeeklyBuckets(activities)
@@ -37,33 +37,33 @@ const DistanceGraph = ({ activities }: { activities: ApiActivity[] }) => {
 
 	const canPaginateLeft = paginated[0].week !== graphBuckets[0].week
 	const canPaginateRight = page > 0
+	const dataKeySuffix = useMiles ? 'Miles' : 'Kilometers'
 
 	if (!hydrated) return null
 
 	return (
-		<div className="rounded border px-5 py-4">
-			<div className="flex gap-4">
-				<Toggle label="Miles" checked={showMiles} setChecked={(v: boolean) => setShowMiles(v)} />
+		<div className="flex flex-col gap-4 rounded border px-5 py-4">
+			<div className="flex gap-x-4">
 				<Toggle label="Walk" checked={showWalk} setChecked={(v: boolean) => setShowWalk(v)} />
 				<Toggle label="Run" checked={showRun} setChecked={(v: boolean) => setShowRun(v)} />
 				<Toggle label="Bike" checked={showRide} setChecked={(v: boolean) => setShowRide(v)} />
+				<button
+					onClick={() => setUseMiles((prev) => !prev)}
+					className="ml-auto rounded bg-orange-600 p-1 px-2 text-sm text-white hover:bg-orange-500"
+				>
+					Show {useMiles ? 'KM' : 'miles'}
+				</button>
 			</div>
 
 			<ResponsiveContainer height={300}>
-				<BarChart data={paginated} margin={{ left: 0 }}>
+				<BarChart data={paginated} margin={{ left: 0, right: 15 }}>
 					<CartesianGrid strokeDasharray="4" />
 					<XAxis dataKey="week" />
-					<YAxis />
+					<YAxis width={45} />
 					<Tooltip />
-					{showWalk && (
-						<Bar dataKey={showMiles ? 'walkMiles' : 'walkMeters'} name="Walk" fill="#bccad6" />
-					)}
-					{showRun && (
-						<Bar dataKey={showMiles ? 'runMiles' : 'runMeters'} name="Run" fill="#8d9db6" />
-					)}
-					{showRide && (
-						<Bar dataKey={showMiles ? 'rideMiles' : 'rideMeters'} name="Bike" fill="#667292" />
-					)}
+					{showWalk && <Bar dataKey={`walk${dataKeySuffix}`} name="Walk" fill="#bccad6" />}
+					{showRun && <Bar dataKey={`run${dataKeySuffix}`} name="Run" fill="#8d9db6" />}
+					{showRide && <Bar dataKey={`ride${dataKeySuffix}`} name="Bike" fill="#667292" />}
 				</BarChart>
 			</ResponsiveContainer>
 

@@ -59,11 +59,11 @@ export const formatGraphBuckets = (buckets: WeeklyBuckets): GraphBucket[] => {
 
 		output.push({
 			week: key.slice(5),
-			rideMeters: rounded(rideMeters),
+			rideKilometers: rounded(rideMeters / 1000),
 			rideMiles: rounded(metersToMiles(rideMeters)),
-			runMeters: rounded(runMeters),
+			runKilometers: rounded(runMeters / 1000),
 			runMiles: rounded(metersToMiles(runMeters)),
-			walkMeters: rounded(walkMeters),
+			walkKilometers: rounded(walkMeters / 1000),
 			walkMiles: rounded(metersToMiles(walkMeters)),
 		})
 	}
