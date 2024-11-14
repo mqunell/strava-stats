@@ -6,10 +6,10 @@ const Header = async () => {
 	const firstName = await getCookie('firstName')
 
 	return (
-		<section className="flex w-full max-w-screen-sm gap-4">
+		<section className="flex w-full max-w-screen-sm overflow-hidden rounded border">
 			{profilePicture ? <img src={profilePicture} /> : null}
 
-			<div className="flex flex-col justify-between">
+			<div className="flex flex-col justify-between px-5 py-4">
 				<p>Hey{firstName ? ` ${firstName}` : ''}!</p>
 				<Logout
 					action={async () => {

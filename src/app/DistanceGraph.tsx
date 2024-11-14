@@ -37,7 +37,7 @@ const DistanceGraph = ({ activities }: { activities: ApiActivity[] }) => {
 
 	const canPaginateLeft = paginated[0].week !== graphBuckets[0].week
 	const canPaginateRight = page > 0
-	const dataKeySuffix = useMiles ? 'Miles' : 'Kilometers'
+	const dataLabel = useMiles ? 'Miles' : 'Kilometers'
 
 	if (!hydrated) return null
 
@@ -47,23 +47,26 @@ const DistanceGraph = ({ activities }: { activities: ApiActivity[] }) => {
 				<Toggle label="Walk" checked={showWalk} setChecked={(v: boolean) => setShowWalk(v)} />
 				<Toggle label="Run" checked={showRun} setChecked={(v: boolean) => setShowRun(v)} />
 				<Toggle label="Bike" checked={showRide} setChecked={(v: boolean) => setShowRide(v)} />
-				<button
-					onClick={() => setUseMiles((prev) => !prev)}
-					className="ml-auto rounded bg-orange-600 p-1 px-2 text-sm text-white hover:bg-orange-500"
-				>
-					Show {useMiles ? 'KM' : 'miles'}
-				</button>
 			</div>
 
 			<ResponsiveContainer height={300}>
 				<BarChart data={paginated} margin={{ left: 0, right: 15 }}>
 					<CartesianGrid strokeDasharray="4" />
 					<XAxis dataKey="week" />
-					<YAxis width={45} />
+					<YAxis
+						width={45}
+						label={{
+							value: dataLabel,
+							angle: -90,
+							position: 'insideLeft',
+							onClick: () => setUseMiles((prev) => !prev),
+						}}
+						onClick={() => setUseMiles((prev) => !prev)}
+					/>
 					<Tooltip />
-					{showWalk && <Bar dataKey={`walk${dataKeySuffix}`} name="Walk" fill="#bccad6" />}
-					{showRun && <Bar dataKey={`run${dataKeySuffix}`} name="Run" fill="#8d9db6" />}
-					{showRide && <Bar dataKey={`ride${dataKeySuffix}`} name="Bike" fill="#667292" />}
+					{showWalk && <Bar dataKey={`walk${dataLabel}`} name="Walk" fill="#bccad6" />}
+					{showRun && <Bar dataKey={`run${dataLabel}`} name="Run" fill="#8d9db6" />}
+					{showRide && <Bar dataKey={`ride${dataLabel}`} name="Bike" fill="#667292" />}
 				</BarChart>
 			</ResponsiveContainer>
 
