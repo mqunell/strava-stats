@@ -26,17 +26,17 @@ const UserData = async ({ accessToken }: { accessToken: string }) => {
 			</section>
 
 			<section className="w-full max-w-screen-sm">
-				<h2 className="text-lg font-semibold">Walking Stats</h2>
+				<h2 className="text-lg font-semibold">Walk Stats</h2>
 				<GenericActivitiesStats activities={walkActivities} />
 			</section>
 
 			<section className="w-full max-w-screen-sm">
-				<h2 className="text-lg font-semibold">Running Stats</h2>
+				<h2 className="text-lg font-semibold">Run Stats</h2>
 				<GenericActivitiesStats activities={runActivities} />
 			</section>
 
 			<section className="w-full max-w-screen-sm">
-				<h2 className="text-lg font-semibold">Biking Stats</h2>
+				<h2 className="text-lg font-semibold">Bike Stats</h2>
 				<GenericActivitiesStats activities={rideActivities} />
 			</section>
 		</>
