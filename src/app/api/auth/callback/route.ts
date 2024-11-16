@@ -1,6 +1,5 @@
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
-import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import { deleteCookie, setCookie } from '@/lib/cookies'
 
 const { CLIENT_ID, CLIENT_SECRET, ROOT_URL } = process.env
 
@@ -11,10 +10,8 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
 	const authCode = searchParams.get('code')
 	const authedScopes = searchParams.get('scope') ?? ''
 
-	const cookieStore: ReadonlyRequestCookies = await cookies()
-
 	if (!requiredScopes.every((scope) => authedScopes.includes(scope))) {
-		cookieStore.set('error', 'The requested scopes must be authorized. Please try again.')
+		await setCookie('error', 'The requested scopes must be authorized. Please try again.')
 		return NextResponse.redirect(ROOT_URL!)
 	}
 
@@ -34,10 +31,10 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
 
 		const stravaData = await stravaRes.json()
 
-		cookieStore.delete('error')
-		cookieStore.set('accessToken', stravaData?.access_token, { maxAge: 60 * 60 * 2 })
-		cookieStore.set('firstName', stravaData?.athlete?.firstname, { maxAge: 60 * 60 * 2 })
-		cookieStore.set('profilePicture', stravaData?.athlete?.profile, { maxAge: 60 * 60 * 2 })
+		await deleteCookie('error')
+		await setCookie('accessToken', stravaData?.access_token)
+		await setCookie('firstName', stravaData?.athlete?.firstname)
+		await setCookie('profilePicture', stravaData?.athlete?.profile)
 	} catch (error) {
 		console.error('error with /api/auth/callback', error)
 	}
