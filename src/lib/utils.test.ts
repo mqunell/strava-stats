@@ -1,6 +1,19 @@
-import { paginate, paginateReverse, pick } from './utils'
+import { displaySeconds, paginate, paginateReverse, pick } from './utils'
 
 describe('utils', () => {
+	test('displaySeconds', () => {
+		expect(displaySeconds(1)).toEqual('0:00:00:01')
+		expect(displaySeconds(30)).toEqual('0:00:00:30')
+		expect(displaySeconds(60)).toEqual('0:00:01:00')
+		expect(displaySeconds(140)).toEqual('0:00:02:20')
+		expect(displaySeconds(3600)).toEqual('0:01:00:00')
+		expect(displaySeconds(9296)).toEqual('0:02:34:56')
+		expect(displaySeconds(10983)).toEqual('0:03:03:03')
+		expect(displaySeconds(86399)).toEqual('0:23:59:59')
+		expect(displaySeconds(86400)).toEqual('1:00:00:00')
+		expect(displaySeconds(360244)).toEqual('4:04:04:04')
+	})
+
 	test('pick', () => {
 		const obj = { a: '1', b: '2', c: '3', d: '4', e: '5' }
 

@@ -1,5 +1,5 @@
 // Distances are in meters unless otherwise noted
-// Times are in minutes
+// Times are in seconds
 
 // GET:/athlete
 type ApiAthlete = {
